@@ -1,11 +1,26 @@
 // We create a requester
 
-export const request =  async (method, url, data) => {
-    const response = await fetch(url, {
-        method
-    })
+const buildOptions = (data) => {
+    const options = {}
 
-    const result = await response.json()
+    if (data) {
+        options.body = JSON.stringify(data)
+        options.headers = {
+            'content-type': 'application/json'
+        }
+    }
 
-    return result;
+    return options
 }
+
+export const request = async (method, url, data) => {
+  const response = await fetch(url, {
+    ...buildOptions(data),
+    method,
+  });
+
+  const result = await response.json();
+
+  return result;
+};
+
